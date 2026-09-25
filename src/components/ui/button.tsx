@@ -16,6 +16,8 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        skyOutline: "rounded-none border border-primary/50 bg-transparent text-primary hover:bg-primary hover:text-primary-foreground uppercase tracking-widest",
+        skySolid: "rounded-none bg-primary text-primary-foreground hover:bg-primary/80 uppercase tracking-widest",
       },
       size: {
         default: "h-9 px-4 py-2",
