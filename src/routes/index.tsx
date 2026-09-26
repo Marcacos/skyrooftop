@@ -55,7 +55,7 @@ function Home() {
           </nav>
           <Button variant="ghost" size="icon" className="text-foreground md:hidden" aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
         </header>
-        {menuOpen && <nav className="absolute inset-x-0 top-20 z-20 flex flex-col gap-5 border-b border-border bg-background px-7 py-7 md:hidden" aria-label="Navegação móvel">{[["O SKY7", "#sobre"], ["Experiência", "#experiencia"], ["O espaço", "#espaco"], ["Instagram", instagram], ["Reservas", "#reservas"]].map(([label, href]) => <a key={label} className="sky-nav-link" href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>}
+        <nav className={`absolute inset-x-0 top-20 z-20 flex flex-col gap-5 border-b border-border/50 bg-background/60 px-7 py-7 backdrop-blur-md transition-[opacity,transform,visibility] duration-[400ms] ease-out md:hidden motion-reduce:transition-none ${menuOpen ? "visible translate-y-0 opacity-100" : "invisible pointer-events-none -translate-y-2 opacity-0"}`} aria-label="Navegação móvel" aria-hidden={!menuOpen} inert={!menuOpen}>{[["O SKY7", "#sobre"], ["Experiência", "#experiencia"], ["O espaço", "#espaco"], ["Instagram", instagram], ["Reservas", "#reservas"]].map(([label, href]) => <a key={label} className="sky-nav-link" href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>
         <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-6 pb-16 pt-10 text-center md:pb-10">
           <p className="sky-eyebrow mb-8 md:mb-10">12º ANDAR · SEVEN BUSINESS CENTER</p>
           <h1 className="sky-wordmark text-foreground">SKY7</h1>
