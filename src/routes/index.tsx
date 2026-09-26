@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { ArrowDown, ArrowRight, Instagram, MapPin, Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import hero from "@/assets/hero.asset.json";
@@ -33,6 +33,22 @@ function Home() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [people, setPeople] = useState("2");
+
+  useEffect(() => {
+    const blocks = document.querySelectorAll<HTMLElement>(".sky-reveal");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -24px 0px" });
+    blocks.forEach((block) => observer.observe(block));
+    document.documentElement.classList.add("sky-motion-ready");
+    return () => { observer.disconnect(); document.documentElement.classList.remove("sky-motion-ready"); };
+  }, []);
 
   function reserve(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -73,9 +89,9 @@ function Home() {
       </section>
 
       <section id="sobre" className="bg-background px-6 py-24 md:px-12 md:py-36">
-        <div className="mx-auto grid max-w-6xl items-center gap-14 md:grid-cols-[1fr_1fr] md:gap-24">
-          <div><p className="sky-eyebrow">Quem somos</p><div className="sky-rule my-7" /><h2 className="sky-section-title max-w-xl">A cidade é outra vista daqui de cima.</h2></div>
-          <div className="space-y-6 text-sm font-light leading-8 text-muted-foreground md:text-base">
+         <div className="mx-auto grid max-w-6xl items-center gap-14 md:grid-cols-[1fr_1fr] md:gap-24">
+           <div className="sky-reveal"><p className="sky-eyebrow">Quem somos</p><div className="sky-rule my-7" /><h2 className="sky-section-title max-w-xl">A cidade é outra vista daqui de cima.</h2></div>
+           <div className="sky-reveal space-y-6 text-sm font-light leading-8 text-muted-foreground md:text-base">
             <p>No coração de Tubarão, o SKY7 Rooftop Bar transforma qualquer encontro em uma noite para lembrar. No 12º andar do Seven Business Center, a vista da cidade encontra boa música, coquetéis e a energia de quem sabe aproveitar o momento.</p>
             <p>Um espaço para reunir os amigos, celebrar, dançar e deixar a noite acontecer — sempre com Tubarão aos seus pés.</p>
             <a href="#experiencia" className="sky-nav-link inline-flex items-center gap-3 pt-3 text-primary">Descubra a experiência <ArrowRight size={16} /></a>
@@ -84,18 +100,18 @@ function Home() {
       </section>
 
       <section className="grid min-h-[560px] md:grid-cols-2">
-        <div className="sky-photo-wrap min-h-[340px] md:min-h-[560px]"><img className="sky-photo" src={space.url} alt="Ambientes e iluminação do SKY7 Rooftop Bar" loading="lazy" /></div>
+         <div className="sky-photo-wrap sky-reveal aspect-[3/2] md:aspect-auto md:min-h-[480px]"><img className="sky-photo" src={space.url} alt="Ambientes e iluminação do SKY7 Rooftop Bar" loading="lazy" /></div>
         <div className="flex items-center bg-secondary px-8 py-20 md:px-16 lg:px-24">
-          <div className="max-w-lg"><p className="sky-eyebrow">Nossa história</p><div className="sky-rule my-7" /><h2 className="sky-section-title">No alto de Tubarão, a noite ganha outro ritmo.</h2><p className="mt-8 text-sm font-light leading-8 text-muted-foreground md:text-base">O SKY7 é mais do que um bar. É um ponto de encontro para viver a música de perto, brindar com bons drinks e aproveitar cada momento em um cenário que só um rooftop pode oferecer.</p><a href={maps} target="_blank" rel="noreferrer" className="sky-nav-link mt-8 inline-flex items-center gap-3 text-primary"><MapPin size={15} /> Como chegar <ArrowRight size={15} /></a></div>
+           <div className="sky-reveal max-w-lg md:ml-auto"><p className="sky-eyebrow">Nossa história</p><div className="sky-rule my-7" /><h2 className="sky-section-title">No alto de Tubarão, a noite ganha outro ritmo.</h2><p className="mt-8 text-sm font-light leading-8 text-muted-foreground md:text-base">O SKY7 é mais do que um bar. É um ponto de encontro para viver a música de perto, brindar com bons drinks e aproveitar cada momento em um cenário que só um rooftop pode oferecer.</p><a href={maps} target="_blank" rel="noreferrer" className="sky-nav-link mt-8 inline-flex items-center gap-3 text-primary"><MapPin size={15} /> Como chegar <ArrowRight size={15} /></a></div>
         </div>
       </section>
 
       <section id="experiencia" className="px-6 py-24 md:px-12 md:py-36">
-        <div className="mx-auto max-w-6xl"><p className="sky-eyebrow">A experiência SKY7</p><div className="sky-rule my-7" /><h2 className="sky-section-title max-w-3xl">Uma grande noite começa aqui.</h2>
+         <div className="mx-auto max-w-6xl"><div className="sky-reveal md:ml-auto md:max-w-2xl md:text-right"><p className="sky-eyebrow">A experiência SKY7</p><div className="sky-rule my-7 md:ml-auto" /><h2 className="sky-section-title max-w-3xl">Uma grande noite começa aqui.</h2></div>
           <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-6">
-            <article><div className="sky-photo-wrap aspect-[4/5]"><img className="sky-photo" src={night.url} alt="Noite e pista iluminada no SKY7" loading="lazy" /></div><p className="sky-eyebrow mt-7">01 / Entretenimento</p><h3 className="mt-3 font-display text-3xl">Música & dança</h3><p className="mt-3 text-sm font-light leading-7 text-muted-foreground">Música ao vivo, DJs e noites que pedem mais uma dança.</p></article>
-            <article><div className="sky-photo-wrap aspect-[4/5]"><img className="sky-photo" src={space.url} alt="Interior do rooftop SKY7" loading="lazy" /></div><p className="sky-eyebrow mt-7">02 / A atmosfera</p><h3 className="mt-3 font-display text-3xl">Lá em cima</h3><p className="mt-3 text-sm font-light leading-7 text-muted-foreground">Uma vista de Tubarão, bons encontros e a energia de um lugar único.</p></article>
-            <article><div className="sky-photo-wrap aspect-[4/5]"><img className="sky-photo" src={food.url} alt="Petiscos e pratos servidos no SKY7" loading="lazy" /></div><p className="sky-eyebrow mt-7">03 / À mesa</p><h3 className="mt-3 font-display text-3xl">Drinks & sabores</h3><p className="mt-3 text-sm font-light leading-7 text-muted-foreground">Coquetéis, cervejas, vinhos e opções para compartilhar no bar.</p></article>
+             <article className="sky-reveal"><div className="sky-photo-wrap aspect-[3/2]"><img className="sky-photo" src={night.url} alt="Noite e pista iluminada no SKY7" loading="lazy" /></div><p className="sky-eyebrow mt-7">01 / Entretenimento</p><h3 className="mt-3 font-display text-3xl">Música & dança</h3><p className="mt-3 text-sm font-light leading-7 text-muted-foreground">Música ao vivo, DJs e noites que pedem mais uma dança.</p></article>
+             <article className="sky-reveal"><div className="sky-photo-wrap aspect-[3/2]"><img className="sky-photo" src={space.url} alt="Interior do rooftop SKY7" loading="lazy" /></div><p className="sky-eyebrow mt-7">02 / A atmosfera</p><h3 className="mt-3 font-display text-3xl">Lá em cima</h3><p className="mt-3 text-sm font-light leading-7 text-muted-foreground">Uma vista de Tubarão, bons encontros e a energia de um lugar único.</p></article>
+             <article className="sky-reveal"><div className="sky-photo-wrap aspect-[3/2]"><img className="sky-photo sky-food-photo" src={food.url} alt="Petiscos e pratos servidos no SKY7" loading="lazy" /></div><p className="sky-eyebrow mt-7">03 / À mesa</p><h3 className="mt-3 font-display text-3xl">Drinks & sabores</h3><p className="mt-3 text-sm font-light leading-7 text-muted-foreground">Coquetéis, cervejas, vinhos e opções para compartilhar no bar.</p></article>
           </div>
         </div>
       </section>
@@ -110,7 +126,7 @@ function Home() {
 
       <section id="espaco" className="px-6 py-24 md:px-12 md:py-36">
         <div className="mx-auto max-w-6xl"><div className="flex flex-wrap items-end justify-between gap-6"><div><p className="sky-eyebrow">O lugar</p><div className="sky-rule my-7" /><h2 className="sky-section-title">Noites memoráveis.</h2></div><a href={instagram} target="_blank" rel="noreferrer" className="sky-nav-link inline-flex items-center gap-2 text-primary"><Instagram size={16} /> Ver no Instagram <ArrowRight size={15} /></a></div>
-          <div className="mt-12 grid gap-4 md:grid-cols-3"><figure><div className="sky-photo-wrap aspect-[4/5]"><img className="sky-photo" src={space.url} alt="Salão do SKY7 Rooftop Bar" loading="lazy" /></div><figcaption className="mt-4 text-xs uppercase tracking-[.2em] text-primary">I &nbsp; O espaço</figcaption></figure><figure><div className="sky-photo-wrap aspect-[4/5]"><img className="sky-photo" src={night.url} alt="Pista e luzes no SKY7" loading="lazy" /></div><figcaption className="mt-4 text-xs uppercase tracking-[.2em] text-primary">II &nbsp; A noite</figcaption></figure><figure><div className="sky-photo-wrap aspect-[4/5]"><img className="sky-photo" src={hero.url} alt="Letreiro luminoso SKY7 no rooftop" loading="lazy" /></div><figcaption className="mt-4 text-xs uppercase tracking-[.2em] text-primary">III &nbsp; SKY7</figcaption></figure></div>
+           <div className="mt-12 grid gap-4 md:grid-cols-3"><figure className="sky-reveal"><div className="sky-photo-wrap aspect-[3/2]"><img className="sky-photo" src={space.url} alt="Salão do SKY7 Rooftop Bar" loading="lazy" /></div><figcaption className="mt-4 text-xs uppercase tracking-[.2em] text-primary">I &nbsp; O espaço</figcaption></figure><figure className="sky-reveal"><div className="sky-photo-wrap aspect-[3/2]"><img className="sky-photo" src={night.url} alt="Pista e luzes no SKY7" loading="lazy" /></div><figcaption className="mt-4 text-xs uppercase tracking-[.2em] text-primary">II &nbsp; A noite</figcaption></figure><figure className="sky-reveal"><div className="sky-photo-wrap aspect-[3/2]"><img className="sky-photo" src={hero.url} alt="Letreiro luminoso SKY7 no rooftop" loading="lazy" /></div><figcaption className="mt-4 text-xs uppercase tracking-[.2em] text-primary">III &nbsp; SKY7</figcaption></figure></div>
         </div>
       </section>
 
